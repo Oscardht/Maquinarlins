@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maquinarlins - Calculadora Inmobiliaria</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MAQUINAR<span>LINS</span></h1>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-line">
+                    <div class="progress-line-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-indicator active" id="step1">1</div>
+                    <div class="step-label active" id="label1">Registro</div>
+                </div>
+                <div class="progress-step">
+                    <div class="step-indicator" id="step2">2</div>
+                    <div class="step-label" id="label2">Proyecto</div>
+                </div>
+            </div>
+        </div>
+        <div class="fase active" id="fase1">
+            <form id="registroForm">
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <input type="text" id="nombre" placeholder="Tu nombre">
+                    <div class="error-message" id="errorNombre">Campo requerido</div>
+                </div>
+                <div class="form-group">
+                    <label>Correo electrónico</label>
+                    <input type="email" id="correo" placeholder="tucorreo@email.com">
+                    <div class="error-message" id="errorCorreo">Correo inválido</div>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="password" placeholder="Mínimo 6 caracteres">
+                    <div class="password-strength">
+                        <div class="password-strength-bar" id="passwordStrength"></div>
+                    </div>
+                    <div class="error-message" id="errorPassword">Mínimo 6 caracteres</div>
+                </div>
+                <div class="tipo-usuario">
+                    <label>Tipo de usuario</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" name="tipoUsuario" id="personal" value="personal" checked>
+                            <label for="personal">Proyecto Personal</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" name="tipoUsuario" id="empresa" value="empresa">
+                            <label for="empresa">Empresa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="campoEmpresa" style="display: none;">
+                    <label id="labelIdentificacion">NIT / RUC</label>
+                    <input type="text" id="identificacion" placeholder="NIT de la empresa">
+                    <div class="error-message" id="errorIdentificacion">Campo requerido</div>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="btnSiguiente" style="width: 100%;">Siguiente</button>
+            </form>
+        </div>
+        <div class="fase" id="fase2">
+            <form id="proyectoForm">
+                <div class="form-group">
+                    <label>Nombre del proyecto</label>
+                    <input type="text" id="nombreProyecto" placeholder="Ej: Edificio Las Lomas">
+                    <div class="error-message" id="errorNombreProyecto">Campo requerido</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de proyecto</label>
+                    <select id="tipoProyecto">
+                        <option value="">Selecciona</option>
+                        <option value="vivienda">Vivienda</option>
+                        <option value="edificio">Edificio</option>
+                        <option value="local">Local Comercial</option>
+                        <option value="oficina">Oficina</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    <div class="error-message" id="errorTipoProyecto">Campo requerido</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ubicación</label>
+                    <input type="text" id="ubicacion" placeholder="Ciudad, dirección">
+                    <div class="error-message" id="errorUbicacion">Campo requerido</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Metros cuadrados (m²)</label>
+                    <input type="number" id="metrosCuadrados" placeholder="Ej: 200">
+                    <div class="error-message" id="errorMetros">Campo requerido</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción del proyecto</label>
+                    <textarea id="descripcion" placeholder="Describe tu proyecto..."></textarea>
+                    <div class="error-message" id="errorDescripcion">Campo requerido</div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" id="btnAtras">Atrás</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="#">Inicia sesión</a>
+        </div>
+    </div>
+    <div class="notification" id="notification">
+        <button class="notification-close" onclick="document.getElementById('notification').classList.remove('show')">×</button>
+        <div class="notification-content">
+            <div class="notification-icon">✓</div>
+            <div class="notification-text">
+                <h3>¡Recibido!</h3>
+                <p>Analizaremos tu proyecto inmobiliario</p>
+                <p><strong>Respuesta en 6 días hábiles</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fase1 = document.getElementById('fase1');
+            const fase2 = document.getElementById('fase2');
+            const btnSiguiente = document.getElementById('btnSiguiente');
+            const btnAtras = document.getElementById('btnAtras');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const label1 = document.getElementById('label1');
+            const label2 = document.getElementById('label2');
+            const progressFill = document.getElementById('progressFill');
+            const nombre = document.getElementById('nombre');
+            const correo = document.getElementById('correo');
+            const password = document.getElementById('password');
+            const radios = document.querySelectorAll('input[name="tipoUsuario"]');
+            const campoEmpresa = document.getElementById('campoEmpresa');
+            const identificacion = document.getElementById('identificacion');
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    campoEmpresa.style.display = this.value === 'empresa' ? 'block' : 'none';
+                });
+            });
+            password.addEventListener('input', function() {
+                const value = this.value;
+                let strength = 0;
+                const bar = document.getElementById('passwordStrength');
+                if (value.length >= 6) strength++;
+                if (value.match(/[a-z]/) && value.match(/[A-Z]/)) strength++;
+                if (value.match(/[0-9]/)) strength++;
+                if (value.match(/[^a-zA-Z0-9]/)) strength++;
+                if (strength <= 1) {
+                    bar.style.width = '25%';
+                    bar.className = 'password-strength-bar strength-weak';
+                } else if (strength === 2) {
+                    bar.style.width = '50%';
+                    bar.className = 'password-strength-bar strength-medium';
+                } else {
+                    bar.style.width = '100%';
+                    bar.className = 'password-strength-bar strength-strong';
+                }
+            });
+            btnSiguiente.addEventListener('click', function() {
+                let valido = true;
+                if (!nombre.value.trim()) {
+                    document.getElementById('errorNombre').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorNombre').style.display = 'none';
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(correo.value)) {
+                    document.getElementById('errorCorreo').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorCorreo').style.display = 'none';
+                }
+                if (password.value.length < 6) {
+                    document.getElementById('errorPassword').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorPassword').style.display = 'none';
+                }
+                if (document.querySelector('input[name="tipoUsuario"]:checked').value === 'empresa') {
+                    if (!identificacion.value.trim()) {
+                        document.getElementById('errorIdentificacion').style.display = 'block';
+                        valido = false;
+                    } else {
+                        document.getElementById('errorIdentificacion').style.display = 'none';
+                    }
+                }
+                if (valido) {
+                    fase1.classList.remove('active');
+                    fase2.classList.add('active');
+                    step1.classList.remove('active');
+                    step1.classList.add('completed');
+                    step2.classList.add('active');
+                    label1.classList.remove('active');
+                    label1.classList.add('completed');
+                    label2.classList.add('active');
+                    progressFill.style.width = '50%';
+                }
+            });
+            btnAtras.addEventListener('click', function() {
+                fase2.classList.remove('active');
+                fase1.classList.add('active');
+                
+                step1.classList.remove('completed');
+                step1.classList.add('active');
+                step2.classList.remove('active');
+                label1.classList.remove('completed');
+                label1.classList.add('active');
+                label2.classList.remove('active');
+                progressFill.style.width = '0%';
+            });
+            document.getElementById('proyectoForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let valido = true;
+                if (!document.getElementById('nombreProyecto').value.trim()) {
+                    document.getElementById('errorNombreProyecto').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorNombreProyecto').style.display = 'none';
+                }
+                if (!document.getElementById('tipoProyecto').value) {
+                    document.getElementById('errorTipoProyecto').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorTipoProyecto').style.display = 'none';
+                }
+                if (!document.getElementById('ubicacion').value.trim()) {
+                    document.getElementById('errorUbicacion').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorUbicacion').style.display = 'none';
+                }
+                if (!document.getElementById('metrosCuadrados').value) {
+                    document.getElementById('errorMetros').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorMetros').style.display = 'none';
+                }
+                if (!document.getElementById('descripcion').value.trim()) {
+                    document.getElementById('errorDescripcion').style.display = 'block';
+                    valido = false;
+                } else {
+                    document.getElementById('errorDescripcion').style.display = 'none';
+                }
+                if (valido) {
+                    document.getElementById('notification').classList.add('show');
+                    setTimeout(() => {
+                        document.getElementById('notification').classList.remove('show');
+                    }, 5000);
+                    setTimeout(() => {
+                        if (confirm('¿Quieres registrar otro proyecto?')) {
+                            location.reload();
+                        }
+                    }, 2000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
