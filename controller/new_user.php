@@ -21,3 +21,5 @@ if(!empty($_POST["btnregister"])){
     }
     
 }
+
+?>
