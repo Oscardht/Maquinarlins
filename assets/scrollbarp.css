@@ -1,23 +1,23 @@
-:root {
-    --gris:   #5d6d7e; 
-    --marmol: #f2f3f4;
-   --degradado: linear-gradient(45deg,var(--gris) var(--marmol));
-} 
+ :root {
+     --gris: #5d6d7e;
+     --marmol: #f2f3f4;
+     --degradado: linear-gradient(45deg, var(--gris) var(--marmol));
+ }
 
-::-webkit-scrollbar{
+ ::-webkit-scrollbar {
 
-    width: 15px;
-    overflow-y: visible;
-    opacity: 1;
-    overflow-clip-margin: visible;
-}
+     width: 15px;
+     overflow-y: visible;
+     opacity: 1;
+     overflow-clip-margin: visible;
+ }
 
-::-webkit-scrollbar-track-piece{
-    background: #a1a4bd;
-    overflow-y: visible;
-    opacity: 1;
+ ::-webkit-scrollbar-track-piece {
+     background: #a1a4bd;
+     overflow-y: visible;
+     opacity: 1;
 
 
 
-    
-}
+
+ }
