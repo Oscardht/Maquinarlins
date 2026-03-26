@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAQUINARLINS | Ingeniería y Maquinaria Pesada</title>
+    <!-- Usamos Outfit para un aspecto técnico, moderno y premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --m-blue: #003366;
+            --m-blue-dark: #001f3f;
+            --m-orange: #FF8C00;
+            --m-orange-hover: #e07b00;
+            --m-gray: #f8f9fa;
+            --m-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--m-gray);
+            color: #333;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR SECTION */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 51, 102, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--m-white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo span {
+            color: var(--m-orange);
+        }
+
+        .nav-logo i {
+            color: var(--m-orange);
+            font-size: 1.5rem;
+        }
+
+        .nav-btn {
+            background: var(--m-orange);
+            color: var(--m-white);
+            padding: 10px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: var(--m-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--m-blue) 0%, var(--m-blue-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 5% 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Dynamic Background Element */
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.15) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            border-radius: 50%;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
+            bottom: -50px;
+            left: -100px;
+            border-radius: 50%;
+            animation: pulse 6s infinite alternate-reverse;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+
+            100% {
+                transform: scale(1.2) translate(-50px, 50px);
+            }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            color: var(--m-orange);
+            font-weight: 600;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--m-white);
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: var(--m-orange);
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Underline animation for span */
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: var(--m-orange);
+            bottom: 5px;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+            border-radius: 4px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #d0dce8;
+            margin-bottom: 40px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .btn-main {
+            background: var(--m-orange);
+            color: var(--m-white);
+            padding: 16px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            background: var(--m-orange-hover);
+            box-shadow: 0 15px 30px rgba(255, 140, 0, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--m-white);
+            border: 2px solid var(--glass-border);
+            padding: 14px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--m-white);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* METRICS SECTION */
+        .metrics {
+            background: var(--m-white);
+            padding: 60px 5%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            position: relative;
+            z-index: 20;
+            margin-top: -50px;
+            border-radius: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .metric-item h4 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--m-blue);
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+
+        .metric-item p {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* FEATURES SECTION */
+        .features {
+            padding: 100px 5%;
+            background: var(--m-gray);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            color: var(--m-blue);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--m-white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid #eaeaea;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--m-orange);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .icon-wrapper {
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 51, 102, 0.05);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            transition: 0.3s;
+        }
+
+        .icon-wrapper i {
+            font-size: 2rem;
+            color: var(--m-blue);
+            transition: 0.3s;
+        }
+
+        .feature-card:hover .icon-wrapper {
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        .feature-card:hover .icon-wrapper i {
+            color: var(--m-orange);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            color: var(--m-blue);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* IMAGE SHOWCASE SECTION */
+        .showcase {
+            padding: 100px 5%;
+            background: var(--m-white);
+        }
+
+        .showcase-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .showcase-image {
+            flex: 1;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 51, 102, 0.15);
+            position: relative;
+        }
+
+        .showcase-image img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .showcase-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .showcase-content {
+            flex: 1;
+        }
+
+        .showcase-content h2 {
+            font-size: 2.5rem;
+            color: var(--m-blue);
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .showcase-content p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .ul-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .ul-list li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+
+        .ul-list li i {
+            color: var(--m-orange);
+            background: rgba(255, 140, 0, 0.1);
+            padding: 8px;
+            border-radius: 50%;
+            font-size: 1rem;
+        }
+
+        /* BOTTOM CTA */
+        .cta-section {
+            padding: 100px 5%;
+            background: var(--m-blue);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-box {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-box h2 {
+            font-size: 3rem;
+            color: var(--m-white);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .cta-box p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--m-blue-dark);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .showcase-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+            }
+
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .cta-box h2 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">
+            <img src="assets/maquinarlinslogo.png" alt="Logo MAQUINARLINS" style="height: 40px; margin-right: 10px;">
+        </a>
+        <a href="pag.html" class="nav-btn">Solicitar Cotización</a>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">Especialistas en Maquinaria Pesada</div>
+            <h1>Proyecta tu Obra con la <span>Mejor Tecnología</span></h1>
+            <p>Simplificamos el registro de tu proyecto y calculamos proyecciones financieras precisas para el alquiler
+                de equipos. Potenciaremos el rendimiento de tu obra urbana o civil.</p>
+            <div class="hero-btns">
+                <a href="pag.html" class="btn-main">
+                    Ir al Cotizador <i class="fas fa-calculator"></i>
+                </a>
+                <a href="#soluciones" class="btn-outline">Conocer más <i class="fas fa-arrow-down"
+                        style="padding-left: 5px;"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- METRICS -->
+    <section class="metrics">
+        <div class="metric-item">
+            <h4>15+</h4>
+            <p>Años Equipando</p>
+        </div>
+        <div class="metric-item">
+            <h4>24/7</h4>
+            <p>Soporte Técnico</p>
+        </div>
+        <div class="metric-item">
+            <h4>100%</h4>
+            <p>Disponibilidad</p>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features" id="soluciones">
+        <div class="section-header">
+            <h2>Soluciones Integradas para Contratistas</h2>
+            <p>A través de nuestro exclusivo sistema, obtienes una visión clara del presupuesto y plazos de
+                arrendamiento antes de llevar el equipo al campo.</p>
+        </div>
+
+        <div class="cards-grid">
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h3>Registro Protegido</h3>
+                <p>Crea tu expediente digital en segundos. Guardamos tu requerimiento bajo estrictos estándares para
+                    asociar tu historial a futuros proyectos sin esfuerzo.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="fas fa-truck-monster"></i>
+                </div>
+                <h3>Gestión de Especificaciones</h3>
+                <p>Ingresa el tamaño y características de tu obra. Con esto dimensionamos rápidamente qué
+                    retroexcavadoras, cargadores o elevadores se ajustan a ti.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon-wrapper">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <h3>Calculadora Financiera</h3>
+                <p>Genera amortizaciones al instante. Simula tu presupuesto de contado o con métodos de interés
+                    compuesto y visualiza exactamente lo que debes invertir.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMAGE SHOWCASE -->
+    <section class="showcase">
+        <div class="showcase-container">
+            <div class="showcase-content">
+                <h2>Diseñado para la Productividad</h2>
+                <p>Entendemos que en toda obra de construcción o ingeniería el tiempo vale oro. Es por eso que todo el
+                    flujo desde el registro hasta la proyección financiera se despliega en una plataforma rápida y sin
+                    fricción.</p>
+                <ul class="ul-list">
+                    <li><i class="fas fa-check"></i> Interfaz intuitiva por fases estructuradas</li>
+                    <li><i class="fas fa-check"></i> Pre-aprobación y proyecciones en un clic</li>
+                    <li><i class="fas fa-check"></i> Diseño elegante respaldado por base de datos segura</li>
+                </ul>
+                <a href="pag.html" class="btn-outline"
+                    style="color: var(--m-blue); border-color: var(--m-blue); display: inline-flex; margin-top: 15px;">Iniciar
+                    Proyecto</a>
+            </div>
+            <div class="showcase-image">
+                <!-- Usando una imagen random de unsplash sobre construcción orientada a la maquinaria -->
+                <img src="https://images.unsplash.com/photo-1541888081635-c8faea808e09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Maquinaria en zona de construcción">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA BOTTOM -->
+    <section class="cta-section">
+        <div class="cta-box">
+            <h2>Es hora de modernizar el flujo de tu proyecto.</h2>
+            <p>Haz clic abajo para ingresar a la plataforma y descubrir cómo se simplificará la proyección financiera de
+                tu equipo de maquinaria pesada.</p>
+            <a href="pag.html" class="btn-main"
+                style="display: inline-flex; justify-content: center; background: var(--m-orange); color: white;">
+                Acceder a la Plataforma <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>© 2026 MAQUINARLINS. Desarrollado con tecnología premium.</p>
+    </footer>
+
+    <script>
+        // Navbar blur on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 51, 102, 0.98)';
+                nav.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.background = 'rgba(0, 51, 102, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

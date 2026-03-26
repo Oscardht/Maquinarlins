@@ -1,13 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maquinarlins - Calculadora Inmobiliaria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/estilos.css">
     <link rel="stylesheet" href="assets/scrollbarp.css">
     <style>
         /* Estilos de la Calculadora */
+        body,
+        input,
+        select,
+        textarea,
+        button {
+            font-family: 'Outfit', sans-serif !important;
+        }
+
         :root {
             --m-blue: #003366;
             --m-orange: #FF8C00;
@@ -38,7 +48,9 @@
         }
 
         @media (max-width: 800px) {
-            .calc-content-layout { grid-template-columns: 1fr; }
+            .calc-content-layout {
+                grid-template-columns: 1fr;
+            }
         }
 
         .calc-sidebar {
@@ -47,9 +59,13 @@
             border-right: 1px solid #ddd;
         }
 
-        .calc-results-area { padding: 20px; }
+        .calc-results-area {
+            padding: 20px;
+        }
 
-        .calc-input-group { margin-bottom: 15px; }
+        .calc-input-group {
+            margin-bottom: 15px;
+        }
 
         .calc-wrapper label {
             display: block;
@@ -59,7 +75,8 @@
             margin-bottom: 5px;
         }
 
-        .calc-wrapper input, .calc-wrapper select {
+        .calc-wrapper input,
+        .calc-wrapper select {
             width: 100%;
             padding: 10px;
             border: 2px solid #ced4da;
@@ -68,7 +85,11 @@
             box-sizing: border-box;
         }
 
-        .calc-wrapper input:focus, .calc-wrapper select:focus { border-color: var(--m-orange); outline: none; }
+        .calc-wrapper input:focus,
+        .calc-wrapper select:focus {
+            border-color: var(--m-orange);
+            outline: none;
+        }
 
         .calc-mode-selector {
             background: #e9ecef;
@@ -92,7 +113,9 @@
             margin-top: 10px;
         }
 
-        .calc-btn:hover { background: #e67e00; }
+        .calc-btn:hover {
+            background: #e67e00;
+        }
 
         .calc-summary-cards {
             display: grid;
@@ -107,11 +130,24 @@
             color: white;
         }
 
-        .calc-card-blue { background: var(--m-blue); }
-        .calc-card-orange { background: var(--m-orange); }
+        .calc-card-blue {
+            background: var(--m-blue);
+        }
 
-        .calc-card-label { font-size: 0.75rem; text-transform: uppercase; display: block; }
-        .calc-card-value { font-size: 1.2rem; font-weight: bold; }
+        .calc-card-orange {
+            background: var(--m-orange);
+        }
+
+        .calc-card-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            display: block;
+        }
+
+        .calc-card-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
 
         .calc-table {
             width: 100%;
@@ -127,7 +163,11 @@
             border-bottom: 2px solid #dee2e6;
         }
 
-        .calc-table td { padding: 8px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+        .calc-table td {
+            padding: 8px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
 
         .calc-badge {
             padding: 4px 8px;
@@ -138,9 +178,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
+            <img src="assets/maquinarlins.png" alt="Logo MAQUINARLINS" style="height: 50px; margin-bottom: 10px;">
             <h1>MAQUINAR<span>LINS</span></h1>
         </div>
         <div class="progress-container">
@@ -318,7 +360,8 @@
                             </div>
                         </div>
 
-                        <h3 id="calc-tituloTabla" style="color: var(--m-blue); font-size: 1rem; margin-top: 0;">Proyección Detallada</h3>
+                        <h3 id="calc-tituloTabla" style="color: var(--m-blue); font-size: 1rem; margin-top: 0;">
+                            Proyección Detallada</h3>
                         <table class="calc-table">
                             <thead>
                                 <tr>
@@ -344,7 +387,8 @@
         </div>
     </div>
     <div class="notification" id="notification">
-        <button class="notification-close" onclick="document.getElementById('notification').classList.remove('show')">×</button>
+        <button class="notification-close"
+            onclick="document.getElementById('notification').classList.remove('show')">×</button>
         <div class="notification-content">
             <div class="notification-icon">✓</div>
             <div class="notification-text">
@@ -356,7 +400,7 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             let currentProyectoId = null;
 
             const fase1 = document.getElementById('fase1');
@@ -375,11 +419,11 @@
             const campoEmpresa = document.getElementById('campoEmpresa');
             const identificacion = document.getElementById('identificacion');
             radios.forEach(radio => {
-                radio.addEventListener('change', function() {
+                radio.addEventListener('change', function () {
                     campoEmpresa.style.display = this.value === 'empresa' ? 'block' : 'none';
                 });
             });
-            password.addEventListener('input', function() {
+            password.addEventListener('input', function () {
                 const value = this.value;
                 let strength = 0;
                 const bar = document.getElementById('passwordStrength');
@@ -398,7 +442,7 @@
                     bar.className = 'password-strength-bar strength-strong';
                 }
             });
-            btnSiguiente.addEventListener('click', function() {
+            btnSiguiente.addEventListener('click', function () {
                 let valido = true;
                 if (!nombre.value.trim()) {
                     document.getElementById('errorNombre').style.display = 'block';
@@ -444,11 +488,11 @@
             const fase3 = document.getElementById('fase3');
             const step3 = document.getElementById('step3');
             const label3 = document.getElementById('label3');
-            
-            btnAtras.addEventListener('click', function() {
+
+            btnAtras.addEventListener('click', function () {
                 fase2.classList.remove('active');
                 fase1.classList.add('active');
-                
+
                 step1.classList.remove('completed');
                 step1.classList.add('active');
                 step2.classList.remove('active');
@@ -457,7 +501,7 @@
                 label2.classList.remove('active');
                 progressFill.style.width = '0%';
             });
-            document.getElementById('proyectoForm').addEventListener('submit', function(e) {
+            document.getElementById('proyectoForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 let valido = true;
                 if (!document.getElementById('nombreProyecto').value.trim()) {
@@ -513,15 +557,15 @@
                         method: 'POST',
                         body: formData
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log("Resultado Base de Datos:", data);
-                        if (data.proyecto_id) {
-                            currentProyectoId = data.proyecto_id;
-                        }
-                    })
-                    .catch(error => console.error("Error BD:", error));
-                    
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log("Resultado Base de Datos:", data);
+                            if (data.proyecto_id) {
+                                currentProyectoId = data.proyecto_id;
+                            }
+                        })
+                        .catch(error => console.error("Error BD:", error));
+
                     setTimeout(() => {
                         actualizarLabelsCalc();
                         calcularProyeccion();
@@ -529,10 +573,10 @@
                 }
             });
 
-            btnAtras2.addEventListener('click', function() {
+            btnAtras2.addEventListener('click', function () {
                 fase3.classList.remove('active');
                 fase2.classList.add('active');
-                
+
                 step2.classList.remove('completed');
                 step2.classList.add('active');
                 step3.classList.remove('active');
@@ -542,8 +586,8 @@
                 progressFill.style.width = '50%';
             });
 
-            document.getElementById('btnFinalizar').addEventListener('click', function() {
-                
+            document.getElementById('btnFinalizar').addEventListener('click', function () {
+
                 // Guardar la proyección antes de finalizar
                 if (currentProyectoId) {
                     const pd = new FormData();
@@ -553,7 +597,7 @@
                     pd.append('frecuencia', document.getElementById('calc-frecuencia').value);
                     pd.append('plazo', document.getElementById('calc-plazo').value);
                     pd.append('interes', document.getElementById('calc-valorVariable').value);
-                    
+
                     // Limpiar el total sacando formato de moneda
                     const totalStr = document.getElementById('calc-resTotal').innerText.replace(/[^0-9.-]+/g, "");
                     pd.append('total_final', totalStr);
@@ -603,7 +647,7 @@
             const freq = document.getElementById('calc-frecuencia').value;
             const modo = document.getElementById('calc-modo').value;
             document.getElementById('calc-lblPlazo').innerText = `Cantidad de ${freq}es`;
-            
+
             if (modo === 'financiamiento') {
                 document.getElementById('calc-lblVariable').innerText = `Tasa de Interés por ${freq} (%)`;
             } else {
@@ -617,7 +661,7 @@
             const n = parseInt(document.getElementById('calc-plazo').value);
             const vVar = parseFloat(document.getElementById('calc-valorVariable').value);
             const freqLabel = document.getElementById('calc-frecuencia').value;
-            const money = (val) => new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(val);
+            const money = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
 
             let acumulado = P;
             let tablaHTML = "";
@@ -656,4 +700,5 @@
         }
     </script>
 </body>
+
 </html>
