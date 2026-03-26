@@ -357,6 +357,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            let currentProyectoId = null;
+
             const fase1 = document.getElementById('fase1');
             const fase2 = document.getElementById('fase2');
             const btnSiguiente = document.getElementById('btnSiguiente');
@@ -498,6 +500,27 @@
                     label2.classList.add('completed');
                     label3.classList.add('active');
                     progressFill.style.width = '100%';
+
+                    // Conexión Frontend - Backend: Guardar en la base de datos
+                    const formData = new FormData();
+                    formData.append('nombre', document.getElementById('nombre').value);
+                    formData.append('correo', document.getElementById('correo').value);
+                    formData.append('nombreProyecto', document.getElementById('nombreProyecto').value);
+                    formData.append('metros', document.getElementById('metrosCuadrados').value);
+                    formData.append('descripcion', document.getElementById('descripcion').value);
+
+                    fetch('controller/new_user.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("Resultado Base de Datos:", data);
+                        if (data.proyecto_id) {
+                            currentProyectoId = data.proyecto_id;
+                        }
+                    })
+                    .catch(error => console.error("Error BD:", error));
                     
                     setTimeout(() => {
                         actualizarLabelsCalc();
@@ -520,6 +543,26 @@
             });
 
             document.getElementById('btnFinalizar').addEventListener('click', function() {
+                
+                // Guardar la proyección antes de finalizar
+                if (currentProyectoId) {
+                    const pd = new FormData();
+                    pd.append('proyecto_id', currentProyectoId);
+                    pd.append('modo', document.getElementById('calc-modo').value);
+                    pd.append('inversion_inicial', document.getElementById('calc-capital').value);
+                    pd.append('frecuencia', document.getElementById('calc-frecuencia').value);
+                    pd.append('plazo', document.getElementById('calc-plazo').value);
+                    pd.append('interes', document.getElementById('calc-valorVariable').value);
+                    
+                    // Limpiar el total sacando formato de moneda
+                    const totalStr = document.getElementById('calc-resTotal').innerText.replace(/[^0-9.-]+/g, "");
+                    pd.append('total_final', totalStr);
+
+                    fetch('controller/guardar_proyeccion.php', { method: 'POST', body: pd })
+                        .then(r => r.json())
+                        .then(resp => console.log("Proyección Guardada:", resp));
+                }
+
                 document.getElementById('notification').classList.add('show');
                 setTimeout(() => {
                     document.getElementById('notification').classList.remove('show');
