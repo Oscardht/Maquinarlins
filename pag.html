@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +9,10 @@
     <link rel="stylesheet" href="assets/scrollbarp.css">
     <style>
         /* Estilos de la Calculadora */
-        body,
-        input,
-        select,
-        textarea,
-        button {
+        body, input, select, textarea, button {
             font-family: 'Outfit', sans-serif !important;
         }
-
+        
         :root {
             --m-blue: #003366;
             --m-orange: #FF8C00;
@@ -48,9 +43,7 @@
         }
 
         @media (max-width: 800px) {
-            .calc-content-layout {
-                grid-template-columns: 1fr;
-            }
+            .calc-content-layout { grid-template-columns: 1fr; }
         }
 
         .calc-sidebar {
@@ -59,13 +52,9 @@
             border-right: 1px solid #ddd;
         }
 
-        .calc-results-area {
-            padding: 20px;
-        }
+        .calc-results-area { padding: 20px; }
 
-        .calc-input-group {
-            margin-bottom: 15px;
-        }
+        .calc-input-group { margin-bottom: 15px; }
 
         .calc-wrapper label {
             display: block;
@@ -75,8 +64,7 @@
             margin-bottom: 5px;
         }
 
-        .calc-wrapper input,
-        .calc-wrapper select {
+        .calc-wrapper input, .calc-wrapper select {
             width: 100%;
             padding: 10px;
             border: 2px solid #ced4da;
@@ -85,11 +73,7 @@
             box-sizing: border-box;
         }
 
-        .calc-wrapper input:focus,
-        .calc-wrapper select:focus {
-            border-color: var(--m-orange);
-            outline: none;
-        }
+        .calc-wrapper input:focus, .calc-wrapper select:focus { border-color: var(--m-orange); outline: none; }
 
         .calc-mode-selector {
             background: #e9ecef;
@@ -113,9 +97,7 @@
             margin-top: 10px;
         }
 
-        .calc-btn:hover {
-            background: #e67e00;
-        }
+        .calc-btn:hover { background: #e67e00; }
 
         .calc-summary-cards {
             display: grid;
@@ -130,24 +112,11 @@
             color: white;
         }
 
-        .calc-card-blue {
-            background: var(--m-blue);
-        }
+        .calc-card-blue { background: var(--m-blue); }
+        .calc-card-orange { background: var(--m-orange); }
 
-        .calc-card-orange {
-            background: var(--m-orange);
-        }
-
-        .calc-card-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            display: block;
-        }
-
-        .calc-card-value {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
+        .calc-card-label { font-size: 0.75rem; text-transform: uppercase; display: block; }
+        .calc-card-value { font-size: 1.2rem; font-weight: bold; }
 
         .calc-table {
             width: 100%;
@@ -163,11 +132,7 @@
             border-bottom: 2px solid #dee2e6;
         }
 
-        .calc-table td {
-            padding: 8px;
-            border-bottom: 1px solid #eee;
-            font-size: 0.9rem;
-        }
+        .calc-table td { padding: 8px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
 
         .calc-badge {
             padding: 4px 8px;
@@ -178,11 +143,14 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
         <div class="header">
-            <img src="assets/maquinarlins.png" alt="Logo MAQUINARLINS" style="height: 50px; margin-bottom: 10px;">
+            <!-- ========================================== -->
+            <!-- PLACEHOLDER LOGO: Cuando tengas el archivo de -->
+            <!-- tu logo propio, descomenta la siguiente línea -->
+            <!-- <img src="assets/tu-logo-aqui.png" alt="Logo MAQUINARLINS" style="height: 50px; margin-bottom: 10px;"> -->
+            <!-- ========================================== -->
             <h1>MAQUINAR<span>LINS</span></h1>
         </div>
         <div class="progress-container">
@@ -292,413 +260,672 @@
             </form>
         </div>
 
-        <div class="fase" id="fase3">
-            <div class="calc-wrapper">
-                <div class="calc-header">
-                    <h2 style="margin:0; font-size: 1.2rem; letter-spacing: 1px;">Proyección Financiera</h2>
+</div>
+<div class="fase" id="fase3" style="width: 100vw; min-height: 100vh; position: absolute; top:0; left:0; background: #f8f9fa; z-index: 1000; margin: 0; padding: 20px; box-sizing: border-box; overflow-x: hidden;">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        .maquinarlins-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            min-height: 680px;
+        }
+
+        /* SIDEBAR DE NAVEGACIÓN */
+        .sidebar-nav {
+            background: #003366;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-btn.active {
+            background: #FF8C00;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* VISTAS */
+        .view-section {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* CALCULADORA */
+        .calc-content-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        .calc-sidebar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .calc-group {
+            margin-bottom: 12px;
+        }
+
+        .calc-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            color: #003366;
+            text-transform: uppercase;
+        }
+
+        .calc-input,
+        .calc-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .calc-btn-primary {
+            background: #003366;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .calc-res-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .calc-res-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid #003366;
+        }
+
+        /* HISTORIAL CON DETALLES */
+        .historial-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 40px;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid #FF8C00;
+            font-size: 0.85rem;
+        }
+
+        .hist-label {
+            display: block;
+            font-size: 0.65rem;
+            color: #718096;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        /* TOUR ANIMADO */
+        .tour-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9000;
+            display: none;
+        }
+
+        .tour-tooltip {
+            position: absolute;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 280px;
+            z-index: 9001;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border-top: 6px solid #FF8C00;
+            transition: all 0.4s ease;
+        }
+
+        @keyframes pulse-tour {
+            0% {
+                box-shadow: 0 0 0 0px rgba(255, 140, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 140, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0px rgba(255, 140, 0, 0);
+            }
+        }
+
+        .highlight-tour {
+            position: relative;
+            z-index: 9002 !important;
+            background: white !important;
+            animation: pulse-tour 1.5s infinite;
+            border: 2px solid #FF8C00 !important;
+        }
+
+        /* PERFIL USUARIO */
+        .user-profile-sidebar {
+            margin-top: auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: #FF8C00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="maquinarlins-layout">
+        <aside class="sidebar-nav">
+            <h3 style="font-size: 1rem; margin-bottom: 20px; color: #FF8C00;">PROYECTAFIN</h3>
+            <button class="nav-btn active" id="btn-nav-calc" onclick="cambiarVista('calc')">📊 Calculadora</button>
+            <button class="nav-btn" id="btn-nav-hist" onclick="cambiarVista('hist')">📜 Historial</button>
+
+            <button class="nav-btn" style="margin-top: 10px; border: 1px solid #FF8C00; background:none;"
+                onclick="exportarHistorialPDF()">Descargar PDF</button>
+
+            <div class="user-profile-sidebar">
+                <div class="user-avatar">M</div>
+                <div style="font-size: 0.8rem;">
+                    <span style="opacity: 0.7; display: block; font-size: 0.65rem;">Analista Inmobiliario</span>
+                    <strong>Maquinarlins</strong>
                 </div>
+            </div>
+        <button class="nav-btn" style="margin-top: auto; border: 1px solid #ddd; background:rgba(255,255,255,0.05);" id="btnAtras2">⬅️ Atrás (Fase 2)</button>
+</aside>
 
-                <div class="calc-content-layout">
-                    <div class="calc-sidebar">
-                        <div class="calc-mode-selector">
-                            <label>Modo de Presupuesto</label>
-                            <select id="calc-modo" onchange="alternarCamposCalc()">
-                                <option value="financiamiento">Financiamiento (Interés)</option>
-                                <option value="contado">Contado (Costo de Uso)</option>
+        <section id="vista-calc" class="view-section active">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <h2 style="color:#003366; margin:0;">
+                    Simulador ProyectaFin
+                    <span style="font-size:0.8rem; background:#FF8C00; color:white; padding:4px 10px; border-radius:15px; margin-left:15px;">ID Proyecto: <span id="label-proy-id">-</span></span>
+                </h2>
+                <button onclick="iniciarTour()"
+                    style="border:1px solid #003366; background:none; border-radius:20px; padding:5px 15px; cursor:pointer; color:#003366; font-size:0.8rem;">Tutorial
+                    Informativo</button>
+            </div>
+
+            <div class="calc-content-layout">
+                <aside class="calc-sidebar">
+                    <div class="calc-group" id="tour-modo">
+                        <label class="calc-label">Modo Operación</label>
+                        <select id="calc-modo" class="calc-select" onchange="toggleModoCalculadora()">
+                            <option value="financiamiento">Financiamiento</option>
+                            <option value="contado">Pago al Contado</option>
+                        </select>
+                    </div>
+                    <div class="calc-group" id="tour-inversion">
+                        <label class="calc-label">Inversión Inicial ($)</label>
+                        <input type="number" id="calc-capital" class="calc-input" placeholder="Monto base">
+                    </div>
+                    <div class="calc-group" id="tour-frec">
+                        <label class="calc-label">Frecuencia Tiempo</label>
+                        <select id="calc-frecuencia" class="calc-select" onchange="actualizarLabelsFrecuencia()">
+                            <option value="Mes">Mensual</option>
+                            <option value="Trimestre">Trimestral</option>
+                            <option value="Semestre">Semestral</option>
+                            <option value="Año">Anual</option>
+                        </select>
+                    </div>
+                    <div class="calc-group" id="tour-plazo">
+                        <label id="lbl-plazo" class="calc-label">Duración</label>
+                        <input type="number" id="calc-plazo" class="calc-input" placeholder="Máx. 24" min="1" max="24" oninput="if(this.value > 24) { this.value = 24; }" maxlength="2">
+                    </div>
+                    <div id="seccion-interes">
+                        <div class="calc-group" id="tour-tasa">
+                            <label id="lbl-variable" class="calc-label">Tasa (%)</label>
+                            <input type="number" id="calc-valor-var" class="calc-input" placeholder="Valor" step="0.1">
+                        </div>
+                        <div class="calc-group" id="tour-tipo">
+                            <label class="calc-label">Cálculo Interés</label>
+                            <select id="calc-metodo" class="calc-select">
+                                <option value="compuesto">Compuesto</option>
+                                <option value="simple">Simple</option>
                             </select>
                         </div>
+                    </div>
+                    <button class="calc-btn-primary" onclick="realizarCalculoYGuardar()">CALCULAR AHORA</button>
+                <button class="nav-btn" style="margin-top: auto; border: 1px solid #ddd; background:rgba(255,255,255,0.05);" id="btnAtras2">⬅️ Atrás (Fase 2)</button>
+</aside>
 
-                        <div class="calc-input-group">
-                            <label>Inversión Inicial ($)</label>
-                            <input type="number" id="calc-capital" value="50000">
+                <main class="calc-main">
+                    <div class="calc-res-grid">
+                        <div class="calc-res-card" id="tour-res">
+                            <span class="calc-label">Valor Final</span>
+                            <h3 id="res-total" style="margin:5px 0; color:#003366;">$0.00</h3>
                         </div>
-
-                        <div class="calc-input-group">
-                            <label>Frecuencia de Tiempo</label>
-                            <select id="calc-frecuencia" onchange="actualizarLabelsCalc()">
-                                <option value="Mes">Mensual</option>
-                                <option value="Trimestre">Trimestral</option>
-                                <option value="Semestre">Semestral</option>
-                                <option value="Año">Anual</option>
-                            </select>
+                        <div class="calc-res-card">
+                            <span class="calc-label" id="lbl-res-extra">Intereses</span>
+                            <h3 id="res-extra" style="margin:5px 0; color:#FF8C00;">$0.00</h3>
                         </div>
-
-                        <div class="calc-input-group">
-                            <label id="calc-lblPlazo">Cantidad de Meses</label>
-                            <input type="number" id="calc-plazo" value="12">
+                        <div class="calc-res-card">
+                            <span class="calc-label">Promedio Periodo</span>
+                            <h3 id="res-cuota" style="margin:5px 0; color:#4a5568;">$0.00</h3>
                         </div>
-
-                        <div class="calc-input-group" id="calc-grupoVariable">
-                            <label id="calc-lblVariable">Tasa de Interés por Mes (%)</label>
-                            <input type="number" id="calc-valorVariable" value="2" step="0.01">
-                        </div>
-
-                        <div class="calc-input-group" id="calc-grupoMetodo">
-                            <label>Tipo de Interés</label>
-                            <select id="calc-metodo">
-                                <option value="simple">Interés Simple (Fijo)</option>
-                                <option value="compuesto">Interés Compuesto (Sobre saldo)</option>
-                            </select>
-                        </div>
-
-                        <button class="calc-btn" onclick="calcularProyeccion()">ACTUALIZAR PROYECCIÓN</button>
                     </div>
 
-                    <div class="calc-results-area">
-                        <div class="calc-summary-cards">
-                            <div class="calc-card calc-card-blue">
-                                <span class="calc-card-label" id="calc-labelFinal">Inversión Final Total</span>
-                                <span id="calc-resTotal" class="calc-card-value">$0.00</span>
-                            </div>
-                            <div class="calc-card calc-card-orange">
-                                <span class="calc-card-label" id="calc-labelCuota">Cuota/Costo Periodo</span>
-                                <span id="calc-resCuota" class="calc-card-value">$0.00</span>
-                            </div>
-                            <div class="calc-card calc-card-blue" style="opacity: 0.9;">
-                                <span class="calc-card-label" id="calc-labelExtra">Total Adicional</span>
-                                <span id="calc-resExtra" class="calc-card-value">$0.00</span>
-                            </div>
-                        </div>
-
-                        <h3 id="calc-tituloTabla" style="color: var(--m-blue); font-size: 1rem; margin-top: 0;">
-                            Proyección Detallada</h3>
+                    <div style="max-height: 280px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px;">
                         <table class="calc-table">
                             <thead>
                                 <tr>
                                     <th>Periodo</th>
-                                    <th>Saldo Inicial</th>
-                                    <th id="calc-thAccion">Interés/Uso</th>
-                                    <th>Saldo Acumulado</th>
+                                    <th>Inicial</th>
+                                    <th>Incremento</th>
+                                    <th>Final</th>
                                 </tr>
                             </thead>
-                            <tbody id="calc-cuerpoTabla"></tbody>
+                            <tbody id="res-tabla"></tbody>
                         </table>
                     </div>
-                </div>
+                </main>
             </div>
-            <div class="btn-group" style="margin-top: 20px;">
-                <button type="button" class="btn btn-secondary" id="btnAtras2">Atrás</button>
-                <button type="button" class="btn btn-primary" id="btnFinalizar">Finalizar</button>
-            </div>
-        </div>
+        </section>
 
-        <div class="login-link">
-            ¿Ya tienes cuenta? <a href="#">Inicia sesión</a>
-        </div>
-    </div>
-    <div class="notification" id="notification">
-        <button class="notification-close"
-            onclick="document.getElementById('notification').classList.remove('show')">×</button>
-        <div class="notification-content">
-            <div class="notification-icon">✓</div>
-            <div class="notification-text">
-                <h3>¡Recibido!</h3>
-                <p>Analizaremos tu proyecto inmobiliario</p>
-                <p><strong>Respuesta en 6 días hábiles</strong></p>
+        <section id="vista-hist" class="view-section">
+            <h2 style="color:#003366; margin-bottom:20px;">Historial Detallado</h2>
+            <div id="lista-historial" class="historial-grid">
             </div>
-        </div>
+        </section>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let currentProyectoId = null;
+    <div id="tourOverlay" class="tour-overlay"></div>
+    <div id="tourTooltip" class="tour-tooltip">
+        <p id="tourText" style="margin-bottom:15px; font-size:0.85rem; color:#333; line-height:1.5;"></p>
+        <button onclick="siguientePaso()"
+            style="background:#FF8C00; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; font-weight:bold; float:right;">Entendido</button>
+    </div>
+</div>
 
-            const fase1 = document.getElementById('fase1');
-            const fase2 = document.getElementById('fase2');
-            const btnSiguiente = document.getElementById('btnSiguiente');
-            const btnAtras = document.getElementById('btnAtras');
-            const step1 = document.getElementById('step1');
-            const step2 = document.getElementById('step2');
-            const label1 = document.getElementById('label1');
-            const label2 = document.getElementById('label2');
-            const progressFill = document.getElementById('progressFill');
-            const nombre = document.getElementById('nombre');
-            const correo = document.getElementById('correo');
-            const password = document.getElementById('password');
-            const radios = document.querySelectorAll('input[name="tipoUsuario"]');
-            const campoEmpresa = document.getElementById('campoEmpresa');
-            const identificacion = document.getElementById('identificacion');
-            radios.forEach(radio => {
-                radio.addEventListener('change', function () {
-                    campoEmpresa.style.display = this.value === 'empresa' ? 'block' : 'none';
-                });
-            });
-            password.addEventListener('input', function () {
-                const value = this.value;
-                let strength = 0;
-                const bar = document.getElementById('passwordStrength');
-                if (value.length >= 6) strength++;
-                if (value.match(/[a-z]/) && value.match(/[A-Z]/)) strength++;
-                if (value.match(/[0-9]/)) strength++;
-                if (value.match(/[^a-zA-Z0-9]/)) strength++;
-                if (strength <= 1) {
-                    bar.style.width = '25%';
-                    bar.className = 'password-strength-bar strength-weak';
-                } else if (strength === 2) {
-                    bar.style.width = '50%';
-                    bar.className = 'password-strength-bar strength-medium';
-                } else {
-                    bar.style.width = '100%';
-                    bar.className = 'password-strength-bar strength-strong';
-                }
-            });
-            btnSiguiente.addEventListener('click', function () {
-                let valido = true;
-                if (!nombre.value.trim()) {
-                    document.getElementById('errorNombre').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorNombre').style.display = 'none';
-                }
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(correo.value)) {
-                    document.getElementById('errorCorreo').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorCorreo').style.display = 'none';
-                }
-                if (password.value.length < 6) {
-                    document.getElementById('errorPassword').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorPassword').style.display = 'none';
-                }
-                if (document.querySelector('input[name="tipoUsuario"]:checked').value === 'empresa') {
-                    if (!identificacion.value.trim()) {
-                        document.getElementById('errorIdentificacion').style.display = 'block';
-                        valido = false;
-                    } else {
-                        document.getElementById('errorIdentificacion').style.display = 'none';
-                    }
-                }
-                if (valido) {
-                    fase1.classList.remove('active');
-                    fase2.classList.add('active');
-                    step1.classList.remove('active');
-                    step1.classList.add('completed');
-                    step2.classList.add('active');
-                    label1.classList.remove('active');
-                    label1.classList.add('completed');
-                    label2.classList.add('active');
-                    progressFill.style.width = '50%';
-                }
-            });
+<script>
+    let db = JSON.parse(localStorage.getItem('maquinarlins_final_db') || '[]');
 
-            const btnAtras2 = document.getElementById('btnAtras2');
-            const fase3 = document.getElementById('fase3');
-            const step3 = document.getElementById('step3');
-            const label3 = document.getElementById('label3');
+    function cambiarVista(vista) {
+        document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`vista-${vista}`).classList.add('active');
+        document.getElementById(`btn-nav-${vista}`).classList.add('active');
+        if (vista === 'hist') renderHistorial();
+    }
 
-            btnAtras.addEventListener('click', function () {
-                fase2.classList.remove('active');
-                fase1.classList.add('active');
+    function toggleModoCalculadora() {
+        const modo = document.getElementById('calc-modo').value;
+        const lblVar = document.getElementById('lbl-variable');
+        const lblExtra = document.getElementById('lbl-res-extra');
+        if (modo === 'contado') {
+            lblVar.innerText = "Costo Mant. ($)";
+            lblExtra.innerText = "Gasto Total";
+            document.getElementById('calc-metodo').disabled = true;
+        } else {
+            lblVar.innerText = "Tasa (%)";
+            lblExtra.innerText = "Intereses";
+            document.getElementById('calc-metodo').disabled = false;
+        }
+    }
 
-                step1.classList.remove('completed');
-                step1.classList.add('active');
-                step2.classList.remove('active');
-                label1.classList.remove('completed');
-                label1.classList.add('active');
-                label2.classList.remove('active');
-                progressFill.style.width = '0%';
-            });
-            document.getElementById('proyectoForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-                let valido = true;
-                if (!document.getElementById('nombreProyecto').value.trim()) {
-                    document.getElementById('errorNombreProyecto').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorNombreProyecto').style.display = 'none';
-                }
-                if (!document.getElementById('tipoProyecto').value) {
-                    document.getElementById('errorTipoProyecto').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorTipoProyecto').style.display = 'none';
-                }
-                if (!document.getElementById('ubicacion').value.trim()) {
-                    document.getElementById('errorUbicacion').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorUbicacion').style.display = 'none';
-                }
-                if (!document.getElementById('metrosCuadrados').value) {
-                    document.getElementById('errorMetros').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorMetros').style.display = 'none';
-                }
-                if (!document.getElementById('descripcion').value.trim()) {
-                    document.getElementById('errorDescripcion').style.display = 'block';
-                    valido = false;
-                } else {
-                    document.getElementById('errorDescripcion').style.display = 'none';
-                }
-                if (valido) {
-                    fase2.classList.remove('active');
-                    fase3.classList.add('active');
-                    step2.classList.remove('active');
-                    step2.classList.add('completed');
-                    step3.classList.add('active');
-                    label2.classList.remove('active');
-                    label2.classList.add('completed');
-                    label3.classList.add('active');
-                    progressFill.style.width = '100%';
+    function actualizarLabelsFrecuencia() {
+        const freq = document.getElementById('calc-frecuencia').value;
+        document.getElementById('lbl-plazo').innerText = `Plazo en ${freq}`;
+    }
 
-                    // Conexión Frontend - Backend: Guardar en la base de datos
-                    const formData = new FormData();
-                    formData.append('nombre', document.getElementById('nombre').value);
-                    formData.append('correo', document.getElementById('correo').value);
-                    formData.append('nombreProyecto', document.getElementById('nombreProyecto').value);
-                    formData.append('metros', document.getElementById('metrosCuadrados').value);
-                    formData.append('descripcion', document.getElementById('descripcion').value);
+    function realizarCalculoYGuardar() {
+        const P = parseFloat(document.getElementById('calc-capital').value) || 0;
+        const n = parseInt(document.getElementById('calc-plazo').value) || 0;
+        const vVar = parseFloat(document.getElementById('calc-valor-var').value) || 0;
+        const modo = document.getElementById('calc-modo').value;
+        const freq = document.getElementById('calc-frecuencia').value;
+        const metodo = document.getElementById('calc-metodo').value;
+        const money = (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v);
 
-                    fetch('controller/new_user.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log("Resultado Base de Datos:", data);
-                            if (data.proyecto_id) {
-                                currentProyectoId = data.proyecto_id;
-                            }
-                        })
-                        .catch(error => console.error("Error BD:", error));
+        if (P <= 0 || n <= 0) return;
 
-                    setTimeout(() => {
-                        actualizarLabelsCalc();
-                        calcularProyeccion();
-                    }, 100);
-                }
-            });
+        let acumulado = P;
+        let totalExtra = 0;
+        let html = "";
+        const factor = freq === 'Meses' ? 12 : freq === 'Trimestres' ? 4 : freq === 'Semestres' ? 2 : 1;
 
-            btnAtras2.addEventListener('click', function () {
-                fase3.classList.remove('active');
-                fase2.classList.add('active');
+        for (let i = 1; i <= n; i++) {
+            let inicio = acumulado;
+            let incremento = (modo === 'financiamiento') ? (metodo === 'simple' ? P * (vVar / 100 / factor) : acumulado * (vVar / 100 / factor)) : vVar;
+            acumulado += incremento;
+            totalExtra += incremento;
+            const mapFreq = {'Meses':'Mes', 'Trimestres':'Trimestre', 'Semestres':'Semestre', 'Años':'Año'};
+            const freqSingular = mapFreq[freq] || freq;
+            html += `<tr><td>${freqSingular} ${i}</td><td>${money(inicio)}</td><td>${money(incremento)}</td><td>${money(acumulado)}</td></tr>`;
+        }
 
-                step2.classList.remove('completed');
-                step2.classList.add('active');
-                step3.classList.remove('active');
-                label2.classList.remove('completed');
-                label2.classList.add('active');
-                label3.classList.remove('active');
-                progressFill.style.width = '50%';
-            });
+        document.getElementById('res-total').innerText = money(acumulado);
+        document.getElementById('res-extra').innerText = money(totalExtra);
+        document.getElementById('res-cuota').innerText = money(acumulado / n);
+        document.getElementById('res-tabla').innerHTML = html;
 
-            document.getElementById('btnFinalizar').addEventListener('click', function () {
-
-                // Guardar la proyección antes de finalizar
-                if (currentProyectoId) {
-                    const pd = new FormData();
-                    pd.append('proyecto_id', currentProyectoId);
-                    pd.append('modo', document.getElementById('calc-modo').value);
-                    pd.append('inversion_inicial', document.getElementById('calc-capital').value);
-                    pd.append('frecuencia', document.getElementById('calc-frecuencia').value);
-                    pd.append('plazo', document.getElementById('calc-plazo').value);
-                    pd.append('interes', document.getElementById('calc-valorVariable').value);
-
-                    // Limpiar el total sacando formato de moneda
-                    const totalStr = document.getElementById('calc-resTotal').innerText.replace(/[^0-9.-]+/g, "");
-                    pd.append('total_final', totalStr);
-
-                    fetch('controller/guardar_proyeccion.php', { method: 'POST', body: pd })
-                        .then(r => r.json())
-                        .then(resp => console.log("Proyección Guardada:", resp));
-                }
-
-                document.getElementById('notification').classList.add('show');
-                setTimeout(() => {
-                    document.getElementById('notification').classList.remove('show');
-                }, 5000);
-                setTimeout(() => {
-                    if (confirm('¿Quieres registrar otro proyecto?')) {
-                        location.reload();
-                    }
-                }, 2000);
-            });
+        db.unshift({
+            id: Date.now(),
+            fecha: new Date().toLocaleDateString(),
+            total: money(acumulado),
+            modo: modo.toUpperCase(),
+            inversion: money(P),
+            extra: money(totalExtra),
+            plazo: `${n} ${freq}`
         });
+        
+        localStorage.setItem('maquinarlins_final_db', JSON.stringify(db));
+        
+        // -- NUEVA INTEGRACIÓN A BD MYSQL --
+        if (typeof currentProyectoId !== 'undefined' && currentProyectoId) {
+            const pd = new FormData();
+            pd.append('proyecto_id', currentProyectoId);
+            pd.append('modo', modo.toUpperCase());
+            pd.append('inversion_inicial', P);
+            pd.append('frecuencia', freq);
+            pd.append('plazo', n);
+            pd.append('interes', vVar);
+            pd.append('total_final', money(acumulado).replace(/[^0-9.-]+/g,"")); // enviar como numero
 
-        // Funciones de la Calculadora
-        function alternarCamposCalc() {
-            const modo = document.getElementById('calc-modo').value;
-            const freq = document.getElementById('calc-frecuencia').value;
-            const lblVar = document.getElementById('calc-lblVariable');
-            const grupoMetodo = document.getElementById('calc-grupoMetodo');
-            const thAccion = document.getElementById('calc-thAccion');
-
-            if (modo === 'contado') {
-                lblVar.innerText = `Costo de Mantenimiento por ${freq} ($)`;
-                document.getElementById('calc-valorVariable').value = 500;
-                grupoMetodo.style.display = 'none';
-                thAccion.innerText = "Costo de Uso";
-                document.getElementById('calc-labelExtra').innerText = "Total Mantenimiento";
-            } else {
-                lblVar.innerText = `Tasa de Interés por ${freq} (%)`;
-                document.getElementById('calc-valorVariable').value = 2;
-                grupoMetodo.style.display = 'block';
-                thAccion.innerText = "Interés Aplicado";
-                document.getElementById('calc-labelExtra').innerText = "Total Intereses";
-            }
-            calcularProyeccion();
+            fetch('controller/guardar_proyeccion.php', { method: 'POST', body: pd })
+                .then(r => r.json())
+                .then(resp => {
+                     console.log("BD Proyección Guardada automáticamente:", resp);
+                })
+                .catch(e => console.error(e));
         }
 
-        function actualizarLabelsCalc() {
-            const freq = document.getElementById('calc-frecuencia').value;
-            const modo = document.getElementById('calc-modo').value;
-            document.getElementById('calc-lblPlazo').innerText = `Cantidad de ${freq}es`;
+    }
 
-            if (modo === 'financiamiento') {
-                document.getElementById('calc-lblVariable').innerText = `Tasa de Interés por ${freq} (%)`;
-            } else {
-                document.getElementById('calc-lblVariable').innerText = `Costo de Mantenimiento por ${freq} ($)`;
-            }
+    function renderHistorial() {
+        const lista = document.getElementById('lista-historial');
+        if (db.length === 0) {
+            lista.innerHTML = "<p style='text-align:center; opacity:0.5; padding:40px;'>No hay registros para mostrar.</p>";
+            return;
+        }
+        lista.innerHTML = db.map(item => `
+            <div class="historial-item">
+                <div>
+                    <span class="hist-label">Fecha y Tipo</span>
+                    <small>${item.fecha}</small><br><strong>${item.modo}</strong>
+                </div>
+                <div>
+                    <span class="hist-label">Inversión Base</span>
+                    <strong>${item.inversion}</strong><br><small>${item.plazo}</small>
+                </div>
+                <div>
+                    <span class="hist-label">Ganancia/Gasto</span>
+                    <span style="color:#FF8C00; font-weight:bold;">${item.extra}</span>
+                </div>
+                <div>
+                    <span class="hist-label">Monto Final</span>
+                    <span style="color:#003366; font-weight:800; font-size:1.1rem;">${item.total}</span>
+                </div>
+                <div style="text-align:right; cursor:pointer;" onclick="borrarRegistro(${item.id})">🗑️</div>
+            </div>
+        `).join('');
+    }
+
+    function borrarRegistro(id) {
+        db = db.filter(i => i.id !== id);
+        
+        localStorage.setItem('maquinarlins_final_db', JSON.stringify(db));
+        
+        // -- NUEVA INTEGRACIÓN A BD MYSQL --
+        if (typeof currentProyectoId !== 'undefined' && currentProyectoId) {
+            const pd = new FormData();
+            pd.append('proyecto_id', currentProyectoId);
+            pd.append('modo', modo.toUpperCase());
+            pd.append('inversion_inicial', P);
+            pd.append('frecuencia', freq);
+            pd.append('plazo', n);
+            pd.append('interes', vVar);
+            pd.append('total_final', money(acumulado).replace(/[^0-9.-]+/g,"")); // enviar como numero
+
+            fetch('controller/guardar_proyeccion.php', { method: 'POST', body: pd })
+                .then(r => r.json())
+                .then(resp => {
+                     console.log("BD Proyección Guardada automáticamente:", resp);
+                })
+                .catch(e => console.error(e));
         }
 
-        function calcularProyeccion() {
-            const modo = document.getElementById('calc-modo').value;
-            const P = parseFloat(document.getElementById('calc-capital').value);
-            const n = parseInt(document.getElementById('calc-plazo').value);
-            const vVar = parseFloat(document.getElementById('calc-valorVariable').value);
-            const freqLabel = document.getElementById('calc-frecuencia').value;
-            const money = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
+        renderHistorial();
+    }
 
-            let acumulado = P;
-            let tablaHTML = "";
-            let totalExtra = 0;
+    function exportarHistorialPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("Reporte Maquinarlins", 14, 15);
+        doc.autoTable({
+            head: [['Fecha', 'Modo', 'Inv. Inicial', 'Ganancia/Gasto', 'Monto Final']],
+            body: db.map(i => [i.fecha, i.modo, i.inversion, i.extra, i.total]),
+            startY: 25
+        });
+        doc.save("Historial_Transacciones.pdf");
+    }
 
-            for (let i = 1; i <= n; i++) {
-                let saldoInicial = acumulado;
-                let incremento = 0;
+    // --- TOUR ANIMADO ---
+    let tourStep = 0;
+    const pasos = [
+        { id: 'tour-modo', text: '<b>MODO DE OPERACIÓN:</b> Define la naturaleza del cálculo. Usa "Financiamiento" para proyectar intereses bancarios o "Contado" para incluir gastos operativos fijos.' },
+        { id: 'tour-inversion', text: '<b>INVERSIÓN INICIAL:</b> Es el capital base o el valor actual del activo sobre el cual se aplicarán los incrementos financieros.' },
+        { id: 'tour-frec', text: '<b>FRECUENCIA DE TIEMPO:</b> Define la periodicidad de los incrementos. Ahora puedes elegir entre Mensual, Trimestral, Semestral o Anual para análisis más específicos.' },
+        { id: 'tour-plazo', text: '<b>DURACIÓN DEL PROYECTO:</b> Cantidad total de periodos (meses, trimestres, semestres o años) que deseas proyectar para observar el crecimiento.' },
+        { id: 'tour-tasa', text: '<b>TASA O COSTO FIJO:</b> En modo financiamiento es el porcentaje de interés. En modo contado, representa el gasto de mantenimiento recurrente.' },
+        { id: 'tour-tipo', text: '<b>TIPO DE CÁLCULO:</b> El interés "Simple" se calcula sobre la base inicial. El "Compuesto" suma los beneficios al capital en cada ciclo (interés sobre interés).' },
+        { id: 'tour-res', text: '<b>PANEL DE RESULTADOS:</b> Resumen en tiempo real del Valor Final, los beneficios generados y el costo promedio por cada periodo transcurrido.' },
+        { id: 'btn-nav-hist', text: '<b>HISTORIAL DETALLADO:</b> Aquí verás el desglose completo de tus transacciones guardadas: Inversión, Ganancias generadas y Monto final consolidado.' }
+    ];
 
-                if (modo === 'financiamiento') {
-                    const r = vVar / 100;
-                    const metodo = document.getElementById('calc-metodo').value;
-                    incremento = (metodo === 'simple') ? (P * r) : (acumulado * r);
-                } else {
-                    incremento = vVar;
-                }
+    function iniciarTour() {
+        cambiarVista('calc');
+        tourStep = 0;
+        document.getElementById('tourOverlay').style.display = 'block';
+        ejecutarPasoTour();
+    }
 
-                acumulado += incremento;
-                totalExtra += incremento;
+    function ejecutarPasoTour() {
+        const p = pasos[tourStep];
+        const el = document.getElementById(p.id);
+        const tooltip = document.getElementById('tourTooltip');
 
-                tablaHTML += `
-                    <tr>
-                        <td><span class="calc-badge">${freqLabel} ${i}</span></td>
-                        <td>${money(saldoInicial)}</td>
-                        <td>${money(incremento)}</td>
-                        <td><strong>${money(acumulado)}</strong></td>
-                    </tr>
-                `;
+        document.querySelectorAll('.highlight-tour').forEach(e => e.classList.remove('highlight-tour'));
+        el.classList.add('highlight-tour');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const rect = el.getBoundingClientRect();
+        tooltip.style.display = 'block';
+        tooltip.style.top = (window.scrollY + rect.bottom + 15) + 'px';
+        tooltip.style.left = Math.max(10, rect.left) + 'px';
+        document.getElementById('tourText').innerHTML = p.text;
+    }
+
+    function siguientePaso() {
+        tourStep++;
+        if (tourStep < pasos.length) ejecutarPasoTour();
+        else {
+            document.getElementById('tourOverlay').style.display = 'none';
+            document.getElementById('tourTooltip').style.display = 'none';
+            document.querySelectorAll('.highlight-tour').forEach(e => e.classList.remove('highlight-tour'));
+        }
+    }
+</script>
+
+    <!-- JS DEL MULTIPASO ORIGINAL -->
+    <script>
+        let currentProyectoId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnSiguiente = document.getElementById('btnSiguiente');
+            const tipoEmpresa = document.getElementById('empresa');
+            const tipoPersonal = document.getElementById('personal');
+            const campoEmpresa = document.getElementById('campoEmpresa');
+
+            if(tipoEmpresa) tipoEmpresa.addEventListener('change', () => campoEmpresa.style.display = 'block');
+            if(tipoPersonal) tipoPersonal.addEventListener('change', () => campoEmpresa.style.display = 'none');
+
+            if(btnSiguiente) {
+                btnSiguiente.addEventListener('click', () => {
+                    const nombre = document.getElementById('nombre').value;
+                    const correo = document.getElementById('correo').value;
+                    const password = document.getElementById('password') ? document.getElementById('password').value : '';
+                    if(!correo || !password) { alert("Necesitas correo y al menos contraseña para avanzar."); return; }
+                    
+                    const fData = new FormData();
+                    fData.append('nombre', nombre);
+                    fData.append('correo', correo);
+                    fData.append('password', password);
+                    
+                    btnSiguiente.innerText = "Validando...";
+                    fetch('controller/auth.php', { method: 'POST', body: fData })
+                        .then(r => r.json())
+                        .then(d => {
+                            btnSiguiente.innerText = "Siguiente";
+                            if(d.status === 'success') {
+                                window.currentClienteId = d.cliente_id;
+                                window.currentClienteNombre = d.nombre;
+                                document.getElementById('fase1').classList.remove('active');
+                                document.getElementById('fase2').classList.add('active');
+                                document.getElementById('step2').classList.add('active');
+                                document.getElementById('label2').classList.add('active');
+                                document.getElementById('progressFill').style.width = '50%';
+                            } else {
+                                alert(d.message);
+                            }
+                        }).catch(e => {
+                            btnSiguiente.innerText = "Siguiente";
+                            console.error(e); alert('Error de conexión');
+                        });
+                });
             }
 
-            document.getElementById('calc-resTotal').innerText = money(acumulado);
-            document.getElementById('calc-resCuota').innerText = money(acumulado / n);
-            document.getElementById('calc-resExtra').innerText = money(totalExtra);
-            document.getElementById('calc-cuerpoTabla').innerHTML = tablaHTML;
-            document.getElementById('calc-tituloTabla').innerText = `Proyección a ${n} ${freqLabel}(es) - Modo ${modo.toUpperCase()}`;
-        }
+            const btnAtras = document.getElementById('btnAtras');
+            if(btnAtras) {
+                btnAtras.addEventListener('click', () => {
+                    document.getElementById('fase2').classList.remove('active');
+                    document.getElementById('fase1').classList.add('active');
+                    document.getElementById('step2').classList.remove('active');
+                    document.getElementById('label2').classList.remove('active');
+                    document.getElementById('progressFill').style.width = '0%';
+                });
+            }
+
+            const btnAtras2 = document.getElementById('btnAtras2'); 
+            if (btnAtras2) {
+                btnAtras2.addEventListener('click', () => {
+                    
+
+                    document.getElementById('fase3').classList.remove('active');
+                    document.getElementById('fase2').classList.add('active');
+                    document.getElementById('step3').classList.remove('active');
+                    document.getElementById('label3').classList.remove('active');
+                    document.getElementById('progressFill').style.width = '50%';
+                });
+            }
+
+            const proyectoForm = document.getElementById('proyectoForm');
+            if(proyectoForm) {
+                proyectoForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const nombre = document.getElementById('nombre').value;
+                    const correo = document.getElementById('correo').value;
+                    const nombreP = document.getElementById('nombreProyecto').value;
+                    const metros = document.getElementById('metrosCuadrados').value;
+                    const desc = document.getElementById('descripcion').value;
+
+                    if(!nombreP) { alert("El nombre del proyecto es requerido"); return; }
+                    
+                    const pd = new FormData();
+                    pd.append('cliente_id', window.currentClienteId);
+                    pd.append('nombreProyecto', nombreP);
+                    pd.append('metros', metros);
+                    pd.append('descripcion', desc);
+
+                    fetch('controller/new_user.php', { method: 'POST', body: pd })
+                        .then(r => r.json())
+                        .then(data => {
+                            console.log('Proyecto Guardado: ', data);
+                            if(data.proyecto_id) {
+                                currentProyectoId = data.proyecto_id;
+                                const lbl = document.getElementById('label-proy-id');
+                                if(lbl) lbl.innerText = currentProyectoId;
+                            }
+                            
+                            
+                            
+                            document.getElementById('fase2').classList.remove('active');
+                            document.getElementById('fase3').classList.add('active');
+                            document.getElementById('step3').classList.add('active');
+                            document.getElementById('label3').classList.add('active');
+                            document.getElementById('progressFill').style.width = '100%';
+                        })
+                        .catch(e => {
+                            console.error('Error', e); alert("Error de red");
+                        });
+                });
+            }
+        });
     </script>
 </body>
-
 </html>

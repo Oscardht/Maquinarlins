@@ -1,0 +1,501 @@
+<div class="fase" id="fase3">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        .maquinarlins-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #ddd;
+            min-height: 680px;
+        }
+
+        /* SIDEBAR DE NAVEGACIÓN */
+        .sidebar-nav {
+            background: #003366;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .nav-btn.active {
+            background: #FF8C00;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* VISTAS */
+        .view-section {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.3s;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* CALCULADORA */
+        .calc-content-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+        }
+
+        .calc-sidebar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+        }
+
+        .calc-group {
+            margin-bottom: 12px;
+        }
+
+        .calc-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            color: #003366;
+            text-transform: uppercase;
+        }
+
+        .calc-input,
+        .calc-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .calc-btn-primary {
+            background: #003366;
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .calc-res-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .calc-res-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border-bottom: 4px solid #003366;
+        }
+
+        /* HISTORIAL CON DETALLES */
+        .historial-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 40px;
+            align-items: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 5px solid #FF8C00;
+            font-size: 0.85rem;
+        }
+
+        .hist-label {
+            display: block;
+            font-size: 0.65rem;
+            color: #718096;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        /* TOUR ANIMADO */
+        .tour-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9000;
+            display: none;
+        }
+
+        .tour-tooltip {
+            position: absolute;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 280px;
+            z-index: 9001;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border-top: 6px solid #FF8C00;
+            transition: all 0.4s ease;
+        }
+
+        @keyframes pulse-tour {
+            0% {
+                box-shadow: 0 0 0 0px rgba(255, 140, 0, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(255, 140, 0, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0px rgba(255, 140, 0, 0);
+            }
+        }
+
+        .highlight-tour {
+            position: relative;
+            z-index: 9002 !important;
+            background: white !important;
+            animation: pulse-tour 1.5s infinite;
+            border: 2px solid #FF8C00 !important;
+        }
+
+        /* PERFIL USUARIO */
+        .user-profile-sidebar {
+            margin-top: auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: #FF8C00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+    </style>
+
+    <div class="maquinarlins-layout">
+        <aside class="sidebar-nav">
+            <h3 style="font-size: 1rem; margin-bottom: 20px; color: #FF8C00;">PROYECTAFIN</h3>
+            <button class="nav-btn active" id="btn-nav-calc" onclick="cambiarVista('calc')">📊 Calculadora</button>
+            <button class="nav-btn" id="btn-nav-hist" onclick="cambiarVista('hist')">📜 Historial</button>
+
+            <button class="nav-btn" style="margin-top: 10px; border: 1px solid #FF8C00; background:none;"
+                onclick="exportarHistorialPDF()">Descargar PDF</button>
+
+            <div class="user-profile-sidebar">
+                <div class="user-avatar">M</div>
+                <div style="font-size: 0.8rem;">
+                    <span style="opacity: 0.7; display: block; font-size: 0.65rem;">Analista Inmobiliario</span>
+                    <strong>Maquinarlins</strong>
+                </div>
+            </div>
+        </aside>
+
+        <section id="vista-calc" class="view-section active">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <h2 style="color:#003366; margin:0;">Simulador ProyectaFin</h2>
+                <button onclick="iniciarTour()"
+                    style="border:1px solid #003366; background:none; border-radius:20px; padding:5px 15px; cursor:pointer; color:#003366; font-size:0.8rem;">Tutorial
+                    Informativo</button>
+            </div>
+
+            <div class="calc-content-layout">
+                <aside class="calc-sidebar">
+                    <div class="calc-group" id="tour-modo">
+                        <label class="calc-label">Modo Operación</label>
+                        <select id="calc-modo" class="calc-select" onchange="toggleModoCalculadora()">
+                            <option value="financiamiento">Financiamiento</option>
+                            <option value="contado">Pago al Contado</option>
+                        </select>
+                    </div>
+                    <div class="calc-group" id="tour-inversion">
+                        <label class="calc-label">Inversión Inicial ($)</label>
+                        <input type="number" id="calc-capital" class="calc-input" placeholder="Monto base">
+                    </div>
+                    <div class="calc-group" id="tour-frec">
+                        <label class="calc-label">Frecuencia Tiempo</label>
+                        <select id="calc-frecuencia" class="calc-select" onchange="actualizarLabelsFrecuencia()">
+                            <option value="Mes">Mensual</option>
+                            <option value="Trimestre">Trimestral</option>
+                            <option value="Semestre">Semestral</option>
+                            <option value="Año">Anual</option>
+                        </select>
+                    </div>
+                    <div class="calc-group" id="tour-plazo">
+                        <label id="lbl-plazo" class="calc-label">Duración</label>
+                        <input type="number" id="calc-plazo" class="calc-input" placeholder="Cantidad">
+                    </div>
+                    <div id="seccion-interes">
+                        <div class="calc-group" id="tour-tasa">
+                            <label id="lbl-variable" class="calc-label">Tasa (%)</label>
+                            <input type="number" id="calc-valor-var" class="calc-input" placeholder="Valor" step="0.1">
+                        </div>
+                        <div class="calc-group" id="tour-tipo">
+                            <label class="calc-label">Cálculo Interés</label>
+                            <select id="calc-metodo" class="calc-select">
+                                <option value="compuesto">Compuesto</option>
+                                <option value="simple">Simple</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="calc-btn-primary" onclick="realizarCalculoYGuardar()">CALCULAR AHORA</button>
+                </aside>
+
+                <main class="calc-main">
+                    <div class="calc-res-grid">
+                        <div class="calc-res-card" id="tour-res">
+                            <span class="calc-label">Valor Final</span>
+                            <h3 id="res-total" style="margin:5px 0; color:#003366;">$0.00</h3>
+                        </div>
+                        <div class="calc-res-card">
+                            <span class="calc-label" id="lbl-res-extra">Intereses</span>
+                            <h3 id="res-extra" style="margin:5px 0; color:#FF8C00;">$0.00</h3>
+                        </div>
+                        <div class="calc-res-card">
+                            <span class="calc-label">Promedio Periodo</span>
+                            <h3 id="res-cuota" style="margin:5px 0; color:#4a5568;">$0.00</h3>
+                        </div>
+                    </div>
+
+                    <div style="max-height: 280px; overflow-y: auto; border: 1px solid #eee; border-radius: 8px;">
+                        <table class="calc-table">
+                            <thead>
+                                <tr>
+                                    <th>Periodo</th>
+                                    <th>Inicial</th>
+                                    <th>Incremento</th>
+                                    <th>Final</th>
+                                </tr>
+                            </thead>
+                            <tbody id="res-tabla"></tbody>
+                        </table>
+                    </div>
+                </main>
+            </div>
+        </section>
+
+        <section id="vista-hist" class="view-section">
+            <h2 style="color:#003366; margin-bottom:20px;">Historial Detallado</h2>
+            <div id="lista-historial" class="historial-grid">
+            </div>
+        </section>
+    </div>
+
+    <div id="tourOverlay" class="tour-overlay"></div>
+    <div id="tourTooltip" class="tour-tooltip">
+        <p id="tourText" style="margin-bottom:15px; font-size:0.85rem; color:#333; line-height:1.5;"></p>
+        <button onclick="siguientePaso()"
+            style="background:#FF8C00; color:white; border:none; padding:8px 15px; border-radius:6px; cursor:pointer; font-weight:bold; float:right;">Entendido</button>
+    </div>
+</div>
+
+<script>
+    let db = JSON.parse(localStorage.getItem('maquinarlins_final_db') || '[]');
+
+    function cambiarVista(vista) {
+        document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`vista-${vista}`).classList.add('active');
+        document.getElementById(`btn-nav-${vista}`).classList.add('active');
+        if (vista === 'hist') renderHistorial();
+    }
+
+    function toggleModoCalculadora() {
+        const modo = document.getElementById('calc-modo').value;
+        const lblVar = document.getElementById('lbl-variable');
+        const lblExtra = document.getElementById('lbl-res-extra');
+        if (modo === 'contado') {
+            lblVar.innerText = "Costo Mant. ($)";
+            lblExtra.innerText = "Gasto Total";
+            document.getElementById('calc-metodo').disabled = true;
+        } else {
+            lblVar.innerText = "Tasa (%)";
+            lblExtra.innerText = "Intereses";
+            document.getElementById('calc-metodo').disabled = false;
+        }
+    }
+
+    function actualizarLabelsFrecuencia() {
+        const freq = document.getElementById('calc-frecuencia').value;
+        document.getElementById('lbl-plazo').innerText = `Plazo (${freq}es)`;
+    }
+
+    function realizarCalculoYGuardar() {
+        const P = parseFloat(document.getElementById('calc-capital').value) || 0;
+        const n = parseInt(document.getElementById('calc-plazo').value) || 0;
+        const vVar = parseFloat(document.getElementById('calc-valor-var').value) || 0;
+        const modo = document.getElementById('calc-modo').value;
+        const freq = document.getElementById('calc-frecuencia').value;
+        const metodo = document.getElementById('calc-metodo').value;
+        const money = (v) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(v);
+
+        if (P <= 0 || n <= 0) return;
+
+        let acumulado = P;
+        let totalExtra = 0;
+        let html = "";
+        const factor = freq === 'Mes' ? 12 : freq === 'Trimestre' ? 4 : freq === 'Semestre' ? 2 : 1;
+
+        for (let i = 1; i <= n; i++) {
+            let inicio = acumulado;
+            let incremento = (modo === 'financiamiento') ? (metodo === 'simple' ? P * (vVar / 100 / factor) : acumulado * (vVar / 100 / factor)) : vVar;
+            acumulado += incremento;
+            totalExtra += incremento;
+            html += `<tr><td>${freq} ${i}</td><td>${money(inicio)}</td><td>${money(incremento)}</td><td>${money(acumulado)}</td></tr>`;
+        }
+
+        document.getElementById('res-total').innerText = money(acumulado);
+        document.getElementById('res-extra').innerText = money(totalExtra);
+        document.getElementById('res-cuota').innerText = money(acumulado / n);
+        document.getElementById('res-tabla').innerHTML = html;
+
+        db.unshift({
+            id: Date.now(),
+            fecha: new Date().toLocaleDateString(),
+            total: money(acumulado),
+            modo: modo.toUpperCase(),
+            inversion: money(P),
+            extra: money(totalExtra),
+            plazo: `${n} ${freq}(es)`
+        });
+        localStorage.setItem('maquinarlins_final_db', JSON.stringify(db));
+    }
+
+    function renderHistorial() {
+        const lista = document.getElementById('lista-historial');
+        if (db.length === 0) {
+            lista.innerHTML = "<p style='text-align:center; opacity:0.5; padding:40px;'>No hay registros para mostrar.</p>";
+            return;
+        }
+        lista.innerHTML = db.map(item => `
+            <div class="historial-item">
+                <div>
+                    <span class="hist-label">Fecha y Tipo</span>
+                    <small>${item.fecha}</small><br><strong>${item.modo}</strong>
+                </div>
+                <div>
+                    <span class="hist-label">Inversión Base</span>
+                    <strong>${item.inversion}</strong><br><small>${item.plazo}</small>
+                </div>
+                <div>
+                    <span class="hist-label">Ganancia/Gasto</span>
+                    <span style="color:#FF8C00; font-weight:bold;">${item.extra}</span>
+                </div>
+                <div>
+                    <span class="hist-label">Monto Final</span>
+                    <span style="color:#003366; font-weight:800; font-size:1.1rem;">${item.total}</span>
+                </div>
+                <div style="text-align:right; cursor:pointer;" onclick="borrarRegistro(${item.id})">🗑️</div>
+            </div>
+        `).join('');
+    }
+
+    function borrarRegistro(id) {
+        db = db.filter(i => i.id !== id);
+        localStorage.setItem('maquinarlins_final_db', JSON.stringify(db));
+        renderHistorial();
+    }
+
+    function exportarHistorialPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.text("Reporte Maquinarlins", 14, 15);
+        doc.autoTable({
+            head: [['Fecha', 'Modo', 'Inv. Inicial', 'Ganancia/Gasto', 'Monto Final']],
+            body: db.map(i => [i.fecha, i.modo, i.inversion, i.extra, i.total]),
+            startY: 25
+        });
+        doc.save("Historial_Transacciones.pdf");
+    }
+
+    // --- TOUR ANIMADO ---
+    let tourStep = 0;
+    const pasos = [
+        { id: 'tour-modo', text: '<b>MODO DE OPERACIÓN:</b> Define la naturaleza del cálculo. Usa "Financiamiento" para proyectar intereses bancarios o "Contado" para incluir gastos operativos fijos.' },
+        { id: 'tour-inversion', text: '<b>INVERSIÓN INICIAL:</b> Es el capital base o el valor actual del activo sobre el cual se aplicarán los incrementos financieros.' },
+        { id: 'tour-frec', text: '<b>FRECUENCIA DE TIEMPO:</b> Define la periodicidad de los incrementos. Ahora puedes elegir entre Mensual, Trimestral, Semestral o Anual para análisis más específicos.' },
+        { id: 'tour-plazo', text: '<b>DURACIÓN DEL PROYECTO:</b> Cantidad total de periodos (meses, trimestres, semestres o años) que deseas proyectar para observar el crecimiento.' },
+        { id: 'tour-tasa', text: '<b>TASA O COSTO FIJO:</b> En modo financiamiento es el porcentaje de interés. En modo contado, representa el gasto de mantenimiento recurrente.' },
+        { id: 'tour-tipo', text: '<b>TIPO DE CÁLCULO:</b> El interés "Simple" se calcula sobre la base inicial. El "Compuesto" suma los beneficios al capital en cada ciclo (interés sobre interés).' },
+        { id: 'tour-res', text: '<b>PANEL DE RESULTADOS:</b> Resumen en tiempo real del Valor Final, los beneficios generados y el costo promedio por cada periodo transcurrido.' },
+        { id: 'btn-nav-hist', text: '<b>HISTORIAL DETALLADO:</b> Aquí verás el desglose completo de tus transacciones guardadas: Inversión, Ganancias generadas y Monto final consolidado.' }
+    ];
+
+    function iniciarTour() {
+        cambiarVista('calc');
+        tourStep = 0;
+        document.getElementById('tourOverlay').style.display = 'block';
+        ejecutarPasoTour();
+    }
+
+    function ejecutarPasoTour() {
+        const p = pasos[tourStep];
+        const el = document.getElementById(p.id);
+        const tooltip = document.getElementById('tourTooltip');
+
+        document.querySelectorAll('.highlight-tour').forEach(e => e.classList.remove('highlight-tour'));
+        el.classList.add('highlight-tour');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const rect = el.getBoundingClientRect();
+        tooltip.style.display = 'block';
+        tooltip.style.top = (window.scrollY + rect.bottom + 15) + 'px';
+        tooltip.style.left = Math.max(10, rect.left) + 'px';
+        document.getElementById('tourText').innerHTML = p.text;
+    }
+
+    function siguientePaso() {
+        tourStep++;
+        if (tourStep < pasos.length) ejecutarPasoTour();
+        else {
+            document.getElementById('tourOverlay').style.display = 'none';
+            document.getElementById('tourTooltip').style.display = 'none';
+            document.querySelectorAll('.highlight-tour').forEach(e => e.classList.remove('highlight-tour'));
+        }
+    }
+</script>

@@ -23,6 +23,26 @@ body {
     width: 100%;
     max-width: 600px;
     padding: 30px;
+    transition: max-width 0.5s ease;
+.container-wide {
+    max-width: 100vw !important;
+    min-height: 100vh !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+.body-flat {
+    background: #f8f9fa !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+}
+
+/* Permitir que la calculadora pierda sus bordes cuando abarque toda la pantalla */
+.body-flat .maquinarlins-layout {
+    border-radius: 0 !important;
+    border: none !important;
+    min-height: 100vh !important;
 }
 
 .header {
